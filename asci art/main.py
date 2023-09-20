@@ -67,6 +67,21 @@ def deserialize_ascii_art(input_file, output_file):
     except Exception as e:
         print(f"Deserialization failed: {str(e)}")
 
+
+def rotate_90_degree(ascii_art):
+
+    lines = ascii_art.split('\n')
+    num_lines = len(lines)
+    line_length = max(len(line) for line in lines)
+    padded_lines = [line.ljust(line_length) for line in lines]
+
+    rotated_lines = []
+
+    for i in range(line_length):
+        rotated_line = ''.join(padded_lines[j][i] if j < num_lines else ' ' for j in range(num_lines - 1, -1, -1))
+        rotated_lines.append(rotated_line)
+    return '\n'.join(rotated_lines)
+
 def rotate_ascii_art(source_file, dest_file, rotation_degree):
     try:
         # Read the source file
@@ -75,14 +90,13 @@ def rotate_ascii_art(source_file, dest_file, rotation_degree):
 
             rotated_ascii = ascii_art
 
-            lines = ascii_art.split('\n')
-
             if rotation_degree == 90:
-               rotated_ascii = '\n'.join([''.join(row[i] for row in ascii_art.split('\n')[::-1]) for i in range(len(ascii_art.split('\n')[0]))])
+                rotated_ascii = rotate_90_degree(ascii_art)
             elif rotation_degree == 180:
                 rotated_ascii = ascii_art[::-1]
             elif rotation_degree == 270:
-                rotated_ascii = '\n'.join([''.join(row[i] for row in ascii_art.split('\n'))[::-1] for i in range(len(ascii_art.split('\n')[0])-1, -1, -1)])
+                rotated_ascii = ascii_art[::-1]
+                rotated_ascii = rotate_90_degree(rotated_ascii)
             elif rotation_degree == 360:
                 rotated_ascii = ascii_art
 
