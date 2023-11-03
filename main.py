@@ -1,14 +1,42 @@
-def factorial(num):
-    if num <= 0:
-        return 1
-    return num * factorial(num - 1)
+class Square:
+    def __init__(self, side_length):
+        self.side_length = side_length
+
+    def get_area(self):
+        return self.side_length ** 2
+
+    def __add__(self, other):
+        if isinstance(other, Rectangle):
+            return self.get_area() + other.get_area()
+        elif isinstance(other, Square):
+            return self.get_area() + other.get_area()
+        else:
+            raise TypeError("Unsupported operand for +")
+
+class Rectangle:
+    def __init__(self, length, width):
+        self.length = length
+        self.width = width
+
+    def get_area(self):
+        return self.length * self.width
+
+    def __add__(self, other):
+        if isinstance(other, Rectangle):
+            return self.get_area() + other.get_area()
+        elif isinstance(other, Square):
+            return self.get_area() + other.get_area()
+        else:
+            raise TypeError("Unsupported operand for +")
+
 
 def main():
-    try:
-        m = int(input("Please enter an integer: "))
-        result = factorial(m)
-        print(f"The Ackermann value for ({m}) is {result}")
-    except ValueError:
-        print("Please enter integers only.")
+    s = Square(5)
+    r = Rectangle(8, 2)
+
+    print(f"square area = {s.get_area()}")
+    print(f"rectangle area = {r.get_area()}")
+
+    print(f"aggregated area is: {s + r}")
 if __name__ == "__main__":
     main()
